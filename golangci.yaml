@@ -1,0 +1,7 @@
+linters-settings:
+  go:
+    modules-download-mode: readonly
+run:
+  skip-dirs-use-default: false
+  skip-dirs:
+    - "vendor"
