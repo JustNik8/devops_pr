@@ -2,6 +2,7 @@ pipeline {
     agent { 
         docker { 
             image 'golang:1.22-alpine' 
+            args '-v ${WORKSPACE}:/go/src/yourapp'
         } 
     }
 
@@ -10,6 +11,14 @@ pipeline {
     }
     
     stages {
+
+        stage('Check Go Environment') {
+            steps {
+                sh 'go version'
+            }
+        }
+
+
         stage('Checkout') {
             steps {
                 // Check code from SCM (Git) for all branches
@@ -26,8 +35,8 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    sudo go mod tidy
-                    sudo go build -o devops_pr
+                    go mod tidy
+                    go build -o devops_pr
                     '''
                 }
             }
