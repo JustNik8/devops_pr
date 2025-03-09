@@ -1,9 +1,18 @@
 pipeline {
-    agent { 
-        docker { 
-            image 'golang:1.22-alpine' 
-            args '-v ${WORKSPACE}:/go/src/yourapp'
-        } 
+    // agent { 
+    //     docker { 
+    //         image 'golang:1.22-alpine' 
+    //         args '-v ${WORKSPACE}:/go/src/devops_pr'
+    //     } 
+    // }
+    agent any
+
+    tools {
+        go 'golang'
+    }
+
+    environment {
+        GO111MODULE = 'on'
     }
 
     triggers {
