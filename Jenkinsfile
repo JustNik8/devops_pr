@@ -2,7 +2,7 @@ pipeline {
     agent { 
         docker { 
             image 'golang:1.22-alpine' 
-            args '-v ${WORKSPACE}:/go/src/devops_pr'
+            args '-v ${WORKSPACE}:/go/src/devops_pr --user root'
         } 
     }
 
