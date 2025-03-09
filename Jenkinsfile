@@ -1,11 +1,10 @@
 pipeline {
-    // agent { 
-    //     docker { 
-    //         image 'golang:1.22-alpine' 
-    //         args '-v ${WORKSPACE}:/go/src/devops_pr'
-    //     } 
-    // }
-    agent any
+    agent { 
+        docker { 
+            image 'golang:1.22-alpine' 
+        } 
+    }
+
 
     environment {
         GO111MODULE = 'on'
@@ -55,5 +54,6 @@ pipeline {
                 }
             }
         }
+        
     }
 }
