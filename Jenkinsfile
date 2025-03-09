@@ -18,6 +18,18 @@ pipeline {
     
     stages {
 
+        stage('Checkout') {
+            steps {
+                // Check code from SCM (Git) for all branches
+                checkout([$class: 'GitSCM', 
+                          branches: [[name: '**']], 
+                          userRemoteConfigs: [[
+                              url: 'git@github.com:JustNik8/devops_pr.git',
+                              credentialsId: 'github-ssh-key'
+                          ]]])
+            }
+        }
+
         stage('Check Go Environment') {
             steps {
                 sh 'go version'
@@ -38,25 +50,10 @@ pipeline {
             }
         }
 
-
-        stage('Checkout') {
-            steps {
-                // Check code from SCM (Git) for all branches
-                checkout([$class: 'GitSCM', 
-                          branches: [[name: '**']], 
-                          userRemoteConfigs: [[
-                              url: 'git@github.com:JustNik8/devops_pr.git',
-                              credentialsId: 'github-ssh-key'
-                          ]]])
-            }
-        }
-
         stage('Lint') {
             steps {
                 script {
                     sh '''
-                    pwd
-                    ls -la
                     golangci-lint run -v ./...
                     '''
                 }
@@ -68,10 +65,8 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    pwd
-                    ls -la
                     go mod tidy
-                    go build -o devops_pr ./cmd/web
+                    go build -o devops_pr -v ./cmd/web
                     '''
                 }
             }
