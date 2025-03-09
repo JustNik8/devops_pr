@@ -7,10 +7,6 @@ pipeline {
     // }
     agent any
 
-    tools {
-        go 'golang'
-    }
-
     environment {
         GO111MODULE = 'on'
     }
