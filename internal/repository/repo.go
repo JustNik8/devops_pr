@@ -6,6 +6,7 @@ import (
 	"ecom/internal/domain"
 )
 
+//go:generate go run github.com/vektra/mockery/v2@v2.42.1 --name GoodRepo
 type GoodRepo interface {
 	GetAllGoods(ctx context.Context, filters []domain.GormFilter, ordersStr string) ([]domain.Good, error)
 	GetGoodByID(ctx context.Context, id string) (domain.Good, error)
