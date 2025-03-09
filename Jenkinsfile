@@ -26,8 +26,8 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    go mod tidy
-                    go build -o devops_pr
+                    sudo go mod tidy
+                    sudo go build -o devops_pr
                     '''
                 }
             }
@@ -37,7 +37,6 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    // Запуск тестов
                     sh 'go test ./...'
                 }
             }
