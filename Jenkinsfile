@@ -53,7 +53,7 @@ pipeline {
         stage('Lint') {
             steps {
                 script {
-                    sh 'golangci-lint run ./...'
+                    sh 'golangci-lint run --buildvcs=false ./...'
                 }
             }
         }
