@@ -51,8 +51,9 @@ pipeline {
                 script {
                     sh '''
                     go mod tidy
-                    go build -o devops_pr
+                    go build -v ./...
                     '''
+                    // go build -o devops_pr
                 }
             }
         }
