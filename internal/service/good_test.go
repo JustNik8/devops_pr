@@ -68,4 +68,5 @@ func TestGetAllGoods(t *testing.T) {
 			assert.Equal(t, tc.isErrExpected, err != nil)
 		})
 	}
+
 }
