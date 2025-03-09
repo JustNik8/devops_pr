@@ -4,6 +4,10 @@ pipeline {
             image 'golang:1.22-alpine' 
         } 
     }
+
+    triggers {
+        githubPush()
+    }
     
     stages {
         stage('build') {
