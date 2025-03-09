@@ -2,12 +2,14 @@ pipeline {
     agent { 
         docker { 
             image 'golang:1.22-alpine' 
+            args '-v ${WORKSPACE}:/go/src/devops_pr'
         } 
     }
 
 
     environment {
         GO111MODULE = 'on'
+        GOCACHE = "/go/src/devops_pr/.cache/go-build"
     }
 
     triggers {
@@ -19,6 +21,15 @@ pipeline {
         stage('Check Go Environment') {
             steps {
                 sh 'go version'
+            }
+        }
+
+        stage('Prepare Environment') {
+            steps {
+                script {
+                    // Создание директории для кэша, если она не существует
+                    sh 'mkdir -p /go/src/devops_pr/.cache/go-build'
+                }
             }
         }
 
@@ -54,6 +65,6 @@ pipeline {
                 }
             }
         }
-        
+
     }
 }
