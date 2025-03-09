@@ -27,8 +27,12 @@ pipeline {
         stage('Prepare Environment') {
             steps {
                 script {
-                    // Создание директории для кэша, если она не существует
-                    sh 'mkdir -p /go/src/devops_pr/.cache/go-build'
+                    // Create dir for cache if it doesn't exist
+                    sh '''
+                        mkdir -p /go/src/devops_pr/.cache/go-build
+                        apk add --no-cache curl git
+                        curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.54.2
+                    '''
                 }
             }
         }
@@ -46,14 +50,22 @@ pipeline {
             }
         }
 
+        stage('Lint') {
+            steps {
+                script {
+                    sh 'golangci-lint run ./...'
+                }
+            }
+        }
+
+
         stage('Build') {
             steps {
                 script {
                     sh '''
                     go mod tidy
-                    go build -v ./...
+                    go build -o devops_pr ./...
                     '''
-                    // go build -o devops_pr
                 }
             }
         }
