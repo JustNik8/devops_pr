@@ -71,7 +71,7 @@ pipeline {
                     pwd
                     ls -la
                     go mod tidy
-                    go build -o devops_pr ./...
+                    go build -o devops_pr ./cmd/web
                     '''
                 }
             }
