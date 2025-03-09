@@ -32,6 +32,7 @@ pipeline {
                         mkdir -p /go/src/devops_pr/.cache/go-build
                         apk add --no-cache curl git
                         curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.54.2
+                        git config --global --add safe.directory .
                     '''
                 }
             }
@@ -56,7 +57,7 @@ pipeline {
                     sh '''
                     pwd
                     ls -la
-                    golangci-lint run ./...
+                    golangci-lint run -v ./...
                     '''
                 }
             }
