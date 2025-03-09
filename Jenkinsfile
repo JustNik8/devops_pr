@@ -68,6 +68,8 @@ pipeline {
             steps {
                 script {
                     sh '''
+                    pwd
+                    ls -la
                     go mod tidy
                     go build -o devops_pr ./...
                     '''
