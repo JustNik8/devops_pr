@@ -3,6 +3,7 @@ package app
 import (
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"ecom/internal/apicollector"
@@ -22,10 +23,16 @@ import (
 
 const (
 	serverPort = ":8080"
+	dsnEnvKey  = "DSN"
 )
 
 func Run() {
-	db, err := createGormDB()
+	dsn := os.Getenv(dsnEnvKey)
+	if dsn == "" {
+		panic("DSN is smpty")
+	}
+
+	db, err := createGormDB(dsn)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -120,8 +127,7 @@ func newServeMux(
 	return mux
 }
 
-func createGormDB() (*gorm.DB, error) {
-	dsn := "host=postgres user=user password=user dbname=ecom_db port=5432 sslmode=disable"
+func createGormDB(dsn string) (*gorm.DB, error) {
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		return nil, err
